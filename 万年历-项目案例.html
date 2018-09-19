@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>万年历-项目案例</title>
+    <link rel="shortcut icon" href="小图标.jpg"/>
+</head>
+<body>
+    <p>项目：万年历</p>
+    <p>业务：</p>
+    <p style="padding-left: 40px">1.提示用户输入年月</p>
+    <p style="padding-left: 40px">2.根据用户输入的年月，显示出日历</p>
+    <br />
+    <p>提示;</p>
+    <p>1.用户输入年月</p>
+    <p>2.1900年1月1日是星期一</p>
+    <p>3.计算一下，输入的日期到1900年1月1日隔了多少天</p>
+    <p>4.星期，7天一循环   用第三步算出的结果除以7，取余，余几就是星期几</p>   <!--  若余0，就是星期日；余4，星期四  -->
+    <p>5.输出图形</p>
+    <br /><br />
+    <script>
+        document.write("********欢迎使用万年历*********<br />");
+        var year=Number( prompt("请输入年份：") );     //输入年月
+        var month=Number( prompt("请输入月份：") );
+
+        var isRn;     //判断是否闰年
+        if( (year%4==0 && year%100!=0) || year%400==0 ){
+            isRn=true;
+        }else {
+            isRn=false;
+        }
+
+        var totalDay=0;     //对于编程语言而言，1900年1月1日是星期一
+        for(var i=1900;i<year;i++){
+            if((i%4==0&&i%100!=0)||i%400==0 ){
+                totalDay=totalDay+366;
+            }else {
+                totalDay=totalDay+365;
+            }
+        }
+        var days=0;    //当月的天数
+        for(var j=1;j<=month;j++){
+            switch (j){
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
+                    days=31;
+                    break;   //31天的月份，到这里结束
+                case 2:     //2月，闰年29天，不是闰年28天
+                    if(isRn){
+                        days=29;
+                    }else{
+                        days=28;
+                    }
+                    break;
+                default:    //其余都是30天
+                    days=30;
+                    break;
+            }
+
+            if(j!=month){       //我们要计算出输入的日期隔1900年1月1日多少天
+                totalDay=totalDay+days;
+            }
+        }
+        console.log( (totalDay+1)%7 );     //星期，7天一循环，  总天数除以7，取余，余几，就是星期几
+
+
+        var firstDay=(totalDay+1)%7;    //输出图形
+        document.write("日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+            "二&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;三&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+            "四&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;五&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;六<br />");
+        for(var m=0;m<=firstDay;m++){
+            document.write("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+        }
+        for(var n=1;n<=days;n++){
+            if(n<10){
+                document.write("&nbsp;"+n+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+            }else{
+                document.write(n+"&nbsp;&nbsp;&nbsp;&nbsp;");
+            }
+            if( (totalDay+n)%7==6 ){
+                document.write("<br />");
+            }
+        }
+    </script>
+</body>
+</html>
